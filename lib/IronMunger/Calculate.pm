@@ -1,3 +1,7 @@
+package IronMunger::Calculate;
+
+use strict;
+use warnings;
 use signatures;
 use autobox::DateTime::Duration;
 
@@ -26,3 +30,5 @@ sub successful_sequential_posts (@posts) {
     check_post_gap(3, 32, @posts), # 4 posts every 32 days
   );
 }
+
+1;
