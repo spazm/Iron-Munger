@@ -5,6 +5,12 @@ use warnings;
 use autobox::DateTime::Duration;
 use signatures;
 
+use Sub::Exporter -setup => {
+  exports => [
+    qw(successful_sequential_posts time_remaining_to_post)
+  ]
+};
+
 sub check_post_gap ($aperture, $days, @posts) {
   return @posts if @posts <= $aperture;
   my @next_post = splice(@posts, 0, $aperture);
@@ -24,11 +30,19 @@ sub check_time_remaining ($aperture, $days, @posts) {
   return $days->days - (DateTime->now - $cand->at)->in_units('days');
 }
 
-sub successful_sequential_posts (@posts) {
+sub check_both ($check, @posts) {
   return max(
-    check_post_gap(1, 10, @posts), # 10 days between posts
-    check_post_gap(3, 32, @posts), # 4 posts every 32 days
+    $check->(1, 10, @posts), # 10 days between posts
+    $check->(4, 32, @posts), # 4 posts within any given 32 days
   );
+}
+
+sub successful_sequential_posts (@posts) {
+  return check_both(\&check_post_gap, @posts);
+}
+
+sub time_remaining_to_post (@posts) {
+  return check_both(\&check_time_remaining, @posts);
 }
 
 1;
