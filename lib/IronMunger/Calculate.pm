@@ -2,8 +2,8 @@ package IronMunger::Calculate;
 
 use strict;
 use warnings;
-use signatures;
 use autobox::DateTime::Duration;
+use signatures;
 
 sub check_post_gap ($aperture, $days, @posts) {
   return @posts if @posts <= $aperture;
