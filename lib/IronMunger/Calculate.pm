@@ -2,6 +2,7 @@ package IronMunger::Calculate;
 
 use strict;
 use warnings;
+use List::Util qw(min);
 use autobox;
 use autobox::DateTime::Duration;
 use signatures;
@@ -12,13 +13,21 @@ use Sub::Exporter -setup => {
   ]
 };
 
+sub day_diff ($dt1, $dt2) {
+  $dt1 = $dt1->at if $dt1->isa('IronMunger::Post');
+  $dt2 = $dt2->at if $dt2->isa('IronMunger::Post');
+  $dt1->delta_days($dt2)->delta_days;
+}
+
 sub check_post_gap ($aperture, $days, @posts) {
-  return @posts if @posts <= $aperture;
+  return scalar @posts if @posts <= $aperture;
   my @next_post = splice(@posts, 0, $aperture);
-  return 0 if DateTime->now - $next_post[-1]->at > $days->days;
+  return 0 if day_diff(DateTime->now, $next_post[-1]) > $days;
   my $success = $aperture;
   foreach my $post (@posts) {
-    return $success if $next_post[0]->at - $post->at > $days->days;
+    if (day_diff($next_post[0],$post) > $days) {
+      return $success;
+    }
     $success++;
     shift(@next_post);
     push(@next_post, $post);
@@ -28,11 +37,12 @@ sub check_post_gap ($aperture, $days, @posts) {
 
 sub check_time_remaining ($aperture, $days, @posts) {
   my $cand = (@posts > $aperture ? $posts[$aperture - 1] : $posts[-1]);
-  return $days->days - (DateTime->now - $cand->at)->in_units('days');
+  my $days_ago = day_diff(DateTime->now, $cand);
+  return $days - $days_ago;
 }
 
 sub check_both ($check, @posts) {
-  return max(
+  return min(
     $check->(1, 10, @posts), # 10 days between posts
     $check->(4, 32, @posts), # 4 posts within any given 32 days
   );
