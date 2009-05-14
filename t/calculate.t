@@ -59,3 +59,27 @@ case five_posts_ok_aperture_needed =>
   expect
     sequential => 5,
     remaining => 4;
+
+case five_posts_gap =>
+  [ 4, 11, 23, 25, 32 ],
+  expect
+    sequential => 2,
+    remaining => 6;
+
+case five_posts_aperture =>
+  [ 1, 11, 21, 31, 41 ],
+  expect
+    sequential => 4,
+    remaining => 1;
+
+case five_posts_aperture_2 =>
+  [ 4, 14, 24, 34, 44 ],
+  expect
+    sequential => 3,
+    remaining => 6;
+
+case five_posts_aperture_2 =>
+  [ 4, 13, 22, 31, 40 ],
+  expect
+    sequential => 4,
+    remaining => 1;

@@ -22,7 +22,12 @@ sub day_diff ($dt1, $dt2) {
 sub check_post_gap ($aperture, $days, @posts) {
   return scalar @posts if @posts <= $aperture;
   my @next_post = splice(@posts, 0, $aperture);
-  return 0 if day_diff(DateTime->now, $next_post[-1]) > $days;
+  if (day_diff(DateTime->now, $next_post[-1]) > $days) {
+    while (@next_post && day_diff(DateTime->now, $next_post[-1]) > $days) {
+      pop @next_post;
+    }
+    return scalar(@next_post);
+  }
   my $success = $aperture;
   foreach my $post (@posts) {
     if (day_diff($next_post[0],$post) > $days) {
@@ -36,9 +41,12 @@ sub check_post_gap ($aperture, $days, @posts) {
 }
 
 sub check_time_remaining ($aperture, $days, @posts) {
-  my $cand = (@posts > $aperture ? $posts[$aperture - 1] : $posts[-1]);
-  my $days_ago = day_diff(DateTime->now, $cand);
-  return $days - $days_ago;
+  my @consider = @posts > $aperture ? @posts[0 .. $aperture - 1] : @posts;
+  foreach my $cand (reverse @consider) {
+    my $days_ago = day_diff(DateTime->now, $cand);
+    return $days - $days_ago if $days > $days_ago;
+  }
+  return $days;
 }
 
 sub check_both ($check, @posts) {
