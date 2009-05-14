@@ -2,6 +2,7 @@ package IronMunger::Calculate;
 
 use strict;
 use warnings;
+use autobox;
 use autobox::DateTime::Duration;
 use signatures;
 
@@ -41,7 +42,7 @@ sub successful_sequential_posts (@posts) {
   return check_both(\&check_post_gap, @posts);
 }
 
-sub time_remaining_to_post (@posts) {
+sub days_remaining_to_post (@posts) {
   return check_both(\&check_time_remaining, @posts);
 }
 

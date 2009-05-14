@@ -2,16 +2,18 @@ use strict;
 use warnings;
 use Test::More qw(no_plan);
 
-use autobox::DateTime::Duration;
-use signatures;
-
 BEGIN {
   use_ok 'IronMunger::Post';
   use_ok 'IronMunger::Calculate';
 }
 
+use autobox;
+use autobox::DateTime::Duration;
+use signatures;
+
 sub named_eq ($test_name, $sub_name, $expected, @posts) {
   my $sub_ref = IronMunger::Calculate->can($sub_name);
+  die "Couldn't find $sub_name in IronMunger::Calculate" unless $sub_ref;
   my $sub_description = join(' ', split '_', $sub_name);
   cmp_ok(
     $sub_ref->(@posts), '==', $expected,
