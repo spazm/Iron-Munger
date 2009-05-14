@@ -47,3 +47,15 @@ case two_posts_too_far_apart =>
   expect
     sequential => 1,
     remaining => 5;
+
+case five_posts_ok_last_needed =>
+  [ 4, 11, 18, 25, 32 ],
+  expect
+    sequential => 5,
+    remaining => 6;
+
+case five_posts_ok_aperture_needed =>
+  [ 4, 11, 18, 28, 32 ],
+  expect
+    sequential => 5,
+    remaining => 4;
