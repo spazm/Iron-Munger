@@ -10,4 +10,9 @@ requires 'signatures';
 requires 'autobox::DateTime::Duration';
 requires 'MooseX::Types::DateTimeX';
 
+test_requires 'Test::More';
+test_requires 'Test::Deep';
+
+auto_install;
+
 WriteAll;
