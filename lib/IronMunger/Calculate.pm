@@ -9,7 +9,7 @@ use signatures;
 
 use Sub::Exporter -setup => {
   exports => [
-    qw(successful_sequential_posts time_remaining_to_post)
+    qw(successful_sequential_posts days_remaining_to_post)
   ]
 };
 
