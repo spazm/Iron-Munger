@@ -1,10 +1,13 @@
 use strict;
 use warnings;
 use Test::More qw(no_plan);
-use aliased 'IronMunger::Monger';
-use aliased 'IronMunger::Post';
 use autobox;
 use autobox::DateTime::Duration;
+
+BEGIN {
+  use_ok aliased => 'IronMunger::Monger';
+  use_ok aliased => 'IronMunger::Post';
+}
 
 my $monger = Monger->new(
   posts => [ map { Post->new(at => $_->days->ago) } (2, 10) ]
