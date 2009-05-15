@@ -1,0 +1,14 @@
+use strict;
+use warnings;
+use Test::More qw(no_plan);
+use aliased 'IronMunger::Monger';
+use aliased 'IronMunger::Post';
+use autobox;
+use autobox::DateTime::Duration;
+
+my $monger = Monger->new(
+  posts => [ map { Post->new(at => $_->days->ago) } (2, 10) ]
+);
+
+cmp_ok($monger->days_left, '==', 8, 'Eight days to post');
+cmp_ok($monger->post_count, '==', 2, 'Two sequential posts');
