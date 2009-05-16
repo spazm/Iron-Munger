@@ -11,6 +11,7 @@ class IronMunger::PlaggerLoader {
   use IronMunger::CSVUtils qw(:all);
 
   use aliased 'IronMunger::Post';
+  use aliased 'IronMunger::Monger';
 
   use IO::All;
   use Text::CSV_XS;
@@ -51,7 +52,7 @@ class IronMunger::PlaggerLoader {
   }
 
   method _expand_monger (IO::All::File $file) {
-    my ($name, $nick) = name_and_nick_from_filename($file->name);
+    my ($name, $nick) = filename_to_name_and_nick(($file->splitpath)[-1]);
     Monger->new(
       (defined $name ? (name => $name) : ()),
       (defined $nick ? (nick => $nick) : ()),

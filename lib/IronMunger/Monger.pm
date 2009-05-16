@@ -2,10 +2,13 @@ use MooseX::Declare;
 
 class IronMunger::Monger {
 
-  use MooseX::Types::Moose qw(ArrayRef);
+  use MooseX::Types::Moose qw(ArrayRef Str);
   use IronMunger::Calculate qw(:all);
   use aliased 'IronMunger::Post';
   use signatures;
+
+  has name => (is => 'ro', isa => Str, required => 0, predicate => 'has_name');
+  has nick => (is => 'ro', isa => Str, required => 0, predicate => 'has_nick');
 
   has posts => (
     is => 'ro', isa => ArrayRef[Post], required => 1,

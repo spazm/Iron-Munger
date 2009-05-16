@@ -56,3 +56,16 @@ foreach my $i (0, 1) {
   }
 }
 
+my $jdv = $loader->_expand_monger($jdv_file);
+
+is($jdv->name, 'Justin DeVuyst', 'Name correct');
+ok(!$jdv->has_nick, 'No nickname');
+cmp_ok(@{$jdv->posts}, '==', 2, '2 posts loaded');
+
+my @mongers = sort { $a->name cmp $b->name } $loader->mongers;
+
+cmp_ok(scalar(@mongers), '==', 2, '2 mongers loaded');
+
+foreach my $i (0, 1) {
+  is($mongers[$i]->name, $names[$i], $names[$i].' loaded');
+}
