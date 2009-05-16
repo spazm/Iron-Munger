@@ -18,7 +18,7 @@ class IronMunger::PlaggerLoader {
   has dir => (is => 'ro', isa => Dir, required => 1, coerce => 1);
 
   method _target_files () {
-    grep $_->name =~ /\.csv$/, io($self->dir)->get_files;
+    grep $_->name =~ /\.csv$/, io($self->dir)->all_files;
   }
 
   method _expand_post (HashRef $post_spec) {
