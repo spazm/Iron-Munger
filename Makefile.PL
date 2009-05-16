@@ -10,6 +10,7 @@ requires 'signatures';
 requires 'autobox::DateTime::Duration';
 requires 'MooseX::Types::DateTimeX';
 requires 'Text::CSV_XS';
+requires 'IO::All';
 
 test_requires 'Test::More';
 test_requires 'Test::Deep';
