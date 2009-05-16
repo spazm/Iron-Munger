@@ -32,14 +32,20 @@ class IronMunger::PlaggerLoader {
     ];
   }
 
+  method _csv_column_order () {
+    my $x;
+    return map +($_ => $x++), qw(author title url at);
+  }
+
   method _expand_postspecs_from_file(IO::All::File $file) {
     my $csv = Text::CSV_XS->new;
     my $io = $file->open;
     my @post_specs;
+    my %col_order = $self->_csv_column_order;
     while (my $post_raw = $csv->getline($io)) {
       my %post_spec;
-      @post_spec{qw{url at}} = @{$post_raw}[1,2];
-      push(@post_specs, %post_spec);
+      @post_spec{qw{url at}} = @{$post_raw}[@col_order{qw{url at}}];
+      push(@post_specs, \%post_spec);
     }
     return \@post_specs;
   }

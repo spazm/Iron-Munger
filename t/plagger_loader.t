@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More qw(no_plan);
-
+use IO::All;
 
 BEGIN {
   use_ok aliased => 'IronMunger::PlaggerLoader';
@@ -31,3 +31,15 @@ is_deeply(
     is($post->$key, $args{$key}, "Attribute ${key} ok");
   }
 }
+
+my @postspecs = map
+  +{
+    url => 'http://jdv79.blogspot.com/2009/05/testable-v007.html',
+    at => $_,
+   }, qw(2009-05-13T02:45:00 2009-05-14T16:00:00);
+
+my $specs = $loader->_expand_postspecs_from_file(
+              io('t/csv/my_Justin_DeVuyst.csv')
+            );
+
+is_deeply($specs, \@postspecs, 'Post specs from file ok');
