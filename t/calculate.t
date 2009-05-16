@@ -23,7 +23,9 @@ sub named_eq ($test_name, $sub_name, $expected, @posts) {
 
 sub case ($name_spec, $case, $expect) {
   my $name = join(' ', map ucfirst, split '_', $name_spec);
-  my @posts = map { IronMunger::Post->new(at => $_->days->ago) } @$case;
+  my @posts = map {
+    IronMunger::Post->new(url => 'http://localhost', at => $_->days->ago)
+  } @$case;
   foreach my $test (sort keys %$expect) {
     named_eq($name, $test, $expect->{$test}, @posts);
   }

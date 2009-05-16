@@ -10,7 +10,9 @@ BEGIN {
 }
 
 my $monger = Monger->new(
-  posts => [ map { Post->new(at => $_->days->ago) } (2, 10) ]
+  posts => [
+    map { Post->new(url => 'http://localhost', at => $_->days->ago) } (2, 10)
+  ]
 );
 
 cmp_ok($monger->days_left, '==', 8, 'Eight days to post');
