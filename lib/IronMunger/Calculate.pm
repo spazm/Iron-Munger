@@ -9,7 +9,7 @@ use signatures;
 
 use Sub::Exporter -setup => {
   exports => [
-    qw(successful_sequential_posts days_remaining_to_post)
+    qw(successful_sequential_posts days_remaining_to_post level_for_post_count)
   ]
 };
 
@@ -62,6 +62,13 @@ sub successful_sequential_posts (@posts) {
 
 sub days_remaining_to_post (@posts) {
   return check_both(\&check_time_remaining, @posts);
+}
+
+sub level_for_post_count($count) {
+  return 'paper' if $count < 4;
+  return 'stone' if $count < 12;
+  return 'bronze' if $count < 36;
+  return 'iron';
 }
 
 1;
