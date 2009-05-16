@@ -38,8 +38,21 @@ my @postspecs = map
     at => $_,
    }, qw(2009-05-13T02:45:00 2009-05-14T16:00:00);
 
-my $specs = $loader->_expand_postspecs_from_file(
-              io('t/csv/my_Justin_DeVuyst.csv')
-            );
+my $jdv_file = io('t/csv/my_Justin_DeVuyst.csv');
+
+my $specs = $loader->_expand_postspecs_from_file($jdv_file);
 
 is_deeply($specs, \@postspecs, 'Post specs from file ok');
+
+my $posts = $loader->_expand_posts_from_file($jdv_file);
+
+cmp_ok(scalar(@$posts), '==', scalar(@postspecs), 'Right number of posts');
+
+foreach my $i (0, 1) {
+  my %spec = %{$postspecs[$i]};
+  my $post = $posts->[$i];
+  foreach my $key (sort keys %spec) {
+    is($post->$key, $spec{$key}, "Attribute ${key} ok for post ${i}");
+  }
+}
+
