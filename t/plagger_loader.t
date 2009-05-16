@@ -21,3 +21,13 @@ is_deeply(
   [ sort map { ($_->splitpath)[-1] } @target ], \@files,
   'filenames ok'
 );
+
+{
+  my %args = (url => 'http://foo.com', at => '2008-04-06T12:00:00');
+
+  ok(my $post = $loader->_expand_post(\%args), 'Expand post constructs object');
+
+  foreach my $key (sort keys %args) {
+    is($post->$key, $args{$key}, "Attribute ${key} ok");
+  }
+}
