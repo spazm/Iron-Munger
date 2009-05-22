@@ -24,6 +24,11 @@ class IronMunger::Monger {
     is => 'ro', lazy => 1,
     default => sub ($self) { days_remaining_to_post(@{$self->posts}) },
   );
+
+  has level => (
+    is => 'ro', lazy => 1,
+    default => sub ($self) { level_for_post_count($self->post_count) }
+  );
 }
 
 1;
