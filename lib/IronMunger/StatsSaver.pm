@@ -26,7 +26,7 @@ class IronMunger::StatsSaver {
       $self->_image_symlink_from($user, $type),
       $self->_image_symlink_target($type, $level),
     );
-    my $dir = File::Spec->catpath((File::Spec->splitpath($target))[0,1]);
+    my $dir = File::Spec->catpath((File::Spec->splitpath($from))[0,1]);
     mkpath($dir);
     symlink($target, $from)
       or confess "Couldn't symlink ${from} to ${target}: $!";
@@ -35,7 +35,11 @@ class IronMunger::StatsSaver {
 
   method _write_symlinks_for (IronMunger::Monger $monger) {
     foreach my $type (@types) {
-      foreach my $name (map $monger->$_, qw(name nick)) {
+      foreach my $name (
+          map $monger->$_,
+            grep $monger->${\"has_$_"},
+              qw(name nick)
+        ) {
         $self->_write_image_symlink($name, $type, $monger->level);
       }
     }
