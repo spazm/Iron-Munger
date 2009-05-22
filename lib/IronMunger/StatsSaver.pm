@@ -6,6 +6,7 @@ class IronMunger::StatsSaver {
   use aliased 'IronMunger::Monger';
   use IO::All;
   use File::Path qw(mkpath);
+  use Path::Class qw(dir);
   use Text::CSV_XS;
 
   has dir => (is => 'ro', isa => Dir, required => 1, coerce => 1);
@@ -13,7 +14,7 @@ class IronMunger::StatsSaver {
   my @types = qw(male female);
 
   method _image_symlink_target (Str $type, Str $level) {
-    $self->dir->subdir('badges')->subdir($type)->file("${level}.png");
+    dir('../../badges')->subdir($type)->file("${level}.png");
   }
 
   method _image_symlink_from (Str $user, Str $type) {

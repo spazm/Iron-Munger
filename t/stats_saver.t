@@ -22,7 +22,7 @@ ok(
 );
 
 is(
-  $saver->_image_symlink_target('male','iron'), 'X/badges/male/iron.png',
+  $saver->_image_symlink_target('male','iron'), '../../badges/male/iron.png',
   'Symlink target ok',
 );
 
