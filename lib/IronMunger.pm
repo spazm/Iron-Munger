@@ -10,8 +10,10 @@ class IronMunger {
 
   use MooseX::Types::Moose qw(HashRef ClassName Str);
 
+  use namespace::autoclean;
+
   has mongers => (
-    is => 'ro', isa => HashRef[Monger], required => 1
+    is => 'ro', isa => HashRef[Monger], required => 1,
     default => sub { {} },
   );
 
