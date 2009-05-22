@@ -7,7 +7,6 @@ class IronMunger::StatsSaver {
   use IO::All;
   use File::Path qw(mkpath);
   use Text::CSV_XS;
-  use namespace::autoclean;
 
   has dir => (is => 'ro', isa => Dir, required => 1, coerce => 1);
 

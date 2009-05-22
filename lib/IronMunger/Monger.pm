@@ -10,6 +10,10 @@ class IronMunger::Monger {
   has name => (is => 'ro', isa => Str, required => 0, predicate => 'has_name');
   has nick => (is => 'ro', isa => Str, required => 0, predicate => 'has_nick');
 
+  method full_name () {
+    join(' aka ',$self->name||'nameless',$self->nick||'anoncow');
+  }
+
   has posts => (
     is => 'ro', isa => ArrayRef[Post], required => 1,
     default => sub { [] },
