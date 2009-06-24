@@ -46,6 +46,7 @@ class IronMunger::PlaggerLoader {
     while (my $post_raw = $csv->getline($io)) {
       my %post_spec;
       @post_spec{qw{url at}} = @{$post_raw}[@col_order{qw{url at}}];
+      next unless $post_spec{url} && $post_spec{at};
       push(@post_specs, \%post_spec);
     }
     return \@post_specs;
