@@ -33,6 +33,18 @@ class IronMunger::Monger {
     is => 'ro', lazy => 1,
     default => sub ($self) { level_for_post_count($self->post_count) }
   );
+
+  method debug_dump () {
+    join("\n",
+      (map join(': ', $_, $self->$_),
+        qw(full_name post_count days_left level)),
+      'Posts:',
+      join('',
+        map { my $x = $_->debug_dump; $x =~ s/^/  /m; $x; } @{$self->posts}
+      ),
+      ''
+    );
+  }
 }
 
 1;

@@ -23,6 +23,13 @@ class IronMunger {
     return $munger;
   }
 
+  method debug_dump () {
+    join("\n", map {
+       "Monger: ".$_->full_name."\n"
+       .$_->debug_dump
+    } map $self->mongers->{$_}, sort keys %{$self->mongers});
+  }
+
   method save_monger_stats (Str $dir) {
     my $saver = StatsSaver->new(dir => $dir);
     $saver->mongers([
