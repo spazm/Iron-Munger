@@ -50,9 +50,10 @@ sub check_time_remaining ($aperture, $days, @posts) {
 }
 
 sub check_both ($check, @posts) {
+  my @sorted_posts = sort {$b->at <=> $a->at} @posts;
   return min(
-    $check->(1, 10, @posts), # 10 days between posts
-    $check->(4, 32, @posts), # 4 posts within any given 32 days
+    $check->(1, 10, @sorted_posts), # 10 days between posts
+    $check->(4, 32, @sorted_posts), # 4 posts within any given 32 days
   );
 }
 

@@ -28,6 +28,7 @@ class IronMunger::PlaggerLoader {
 
   method _expand_posts_from_file(IO::All::File $file) {
     return [
+      sort { $b->at <=> $a->at }
       map $self->_expand_post($_),
         @{$self->_expand_postspecs_from_file($file)},
     ];

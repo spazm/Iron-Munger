@@ -59,7 +59,7 @@ foreach my $gender (qw(male female)) {
   my $l = io("${mbdir}/${gender}/mst.png");
   ok($l->is_link, "${desc} exists");
   is(
-    $l->readlink, "${bdir}/${gender}/paper.png",
+    $l->readlink, "../../badges/${gender}/paper.png",
     "${desc} points to right target",
   );
   ok(delete $found_links{$l}, "${desc} in link list");

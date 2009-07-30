@@ -41,10 +41,13 @@ my @postspecs = map
 my $jdv_file = io('t/csv/my_Justin_DeVuyst.csv');
 
 my $specs = $loader->_expand_postspecs_from_file($jdv_file);
+#expand_postspecs reads in file order
 
 is_deeply($specs, \@postspecs, 'Post specs from file ok');
 
 my $posts = $loader->_expand_posts_from_file($jdv_file);
+#expand_posts is sorted in newest first by 'at'
+@postspecs = sort{ $b->{at} cmp $a->{at} } @postspecs;
 
 cmp_ok(scalar(@$posts), '==', scalar(@postspecs), 'Right number of posts');
 
