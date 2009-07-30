@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rsync -avz -e ssh piet.scsys.co.uk:/var/www/ironman.enlightenedperl.org/plagger/csv/ csv
