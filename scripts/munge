@@ -2,12 +2,20 @@
 
 use strict;
 use warnings;
+use Test::MockTime qw(set_fixed_time restore_time); 
+
 use IronMunger;
 use File::Path qw(rmtree);
 use File::Copy::Recursive qw(dircopy);
 
 rmtree('output');
 dircopy('share','output');
+
+{
+	set_fixed_time('06/19/2009 00:00:00', '%m/%d/%Y %H:%M:%S');
+	use autobox::DateTime::Duration;
+	print 'The Time is now : ' . DateTime->now() . "\n";
+}
 
 my $munger = IronMunger->load_from_plagger('csv');
 
